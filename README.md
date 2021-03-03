@@ -41,4 +41,4 @@
 
 Инициализация зашифрованного репозитория на backup-server
 
-`borg init --encryption=repokey-blake2 /var/backups/`
+`borg init --encryption=repokey-blake2 /var/backups/client.bkp.local-etc`
