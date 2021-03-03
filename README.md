@@ -35,10 +35,22 @@
 
 3. Настройка borgbackup
 
+Инициализация зашифрованного репозитория на backup-server
+
+`borg init --encryption=repokey-blake2 /var/backups/client.bkp.local-etc`
+
 На client прописать хост:
 
 `echo '192.168.30.10 backup-server.bkp.local backup-server' >> /etc/hosts`
 
-Инициализация зашифрованного репозитория на backup-server
+На client создать файл с passphrase
 
-`borg init --encryption=repokey-blake2 /var/backups/client.bkp.local-etc`
+`vi /root/.borg-passphrase`
+
+`chmod 400 /root/.borg-passphrase`
+
+На client запустить скрипт
+
+`sh /root/borgbackup_etc.sh`
+
+PS авторизация по ssh ключу
