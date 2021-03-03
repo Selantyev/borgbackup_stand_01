@@ -18,7 +18,9 @@ servers=[
     :hostname => "backup-server." + DOMAIN,
     :ip_int => INTERNAL_NET + "10",
 	:cpus => 1,
-    :ram => 1024
+    :ram => 1024,
+    :hdd_name => "backups.vdi",
+    :hdd_size => "2048"
   },
 ]
  
@@ -33,6 +35,13 @@ Vagrant.configure(2) do |config|
             node.vm.provider "virtualbox" do |vb|
                 vb.customize ["modifyvm", :id, "--cpus", machine[:cpus], "--memory", machine[:ram]]
                 vb.name = machine[:hostname]
+		if (!machine[:hdd_name].nil?)
+                    unless File.exist?(machine[:hdd_name])
+                        vb.customize ["createhd", "--filename", machine[:hdd_name], "--size", machine[:hdd_size]]
+                    end
+		    vb.customize ["storagectl", :id, "--name", "SATA AHCI", "--add", "sata", "--controller", "IntelAHCI"]
+                    vb.customize ["storageattach", :id, "--storagectl", "SATA AHCI", "--port", 1, "--device", 0, "--type", "hdd", "--medium", machine[:hdd_name]]
+                end
             end
         end
     end
