@@ -12,7 +12,7 @@ BACKUP_TYPE=etc
 REPOSITORY=$BACKUP_USER@$BACKUP_SERVER:/var/backups/$(hostname)-${BACKUP_TYPE}
 
 # Export passphrase
-export BORG_PASSCOMMAND="cat $HOME/.borg-passphrase"
+export BORG_PASSCOMMAND="cat /root/.borg-passphrase"
 
 # Create backup
 borg create -v -s $REPOSITORY::'{now:%Y-%m-%d-%H-%M}' /etc
